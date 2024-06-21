@@ -9,6 +9,14 @@ import Register from "./Components/Register/Register.jsx";
 import AuthProvider from "./Components/Providers/AuthProvider.jsx";
 import CoffeeCard from "./Components/CoffeeCard/CoffeeCard.jsx";
 import UpdateCoffee from "./Components/UpdateCoffee/UpdateCoffee.jsx";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,11 +50,14 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

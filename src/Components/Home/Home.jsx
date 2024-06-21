@@ -9,7 +9,6 @@ const Home = () => {
       <h2 className="text-center text-3xl font-bold">
         Coffees: {coffees.length}
       </h2>
-      <h2 className="text-center text-3xl font-bold">Coffees: {coffees._id}</h2>
     </div>
   );
 };
