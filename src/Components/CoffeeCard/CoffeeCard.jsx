@@ -25,11 +25,11 @@ const CoffeeCard = () => {
       <p className="text-center text-3xl font-bold">
         Coffee Card: {coffees.length}
       </p>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-6">
         {coffees.map((coffee) => (
-          <div key={coffee._id} className="card w-96 bg-base-100 shadow-xl">
+          <div key={coffee._id} className="card  bg-base-100 shadow-xl">
             <figure>
-              <img src={coffee.photo_url} alt="Shoes" />
+              <img src={coffee.photo} alt="Shoes" />
             </figure>
             <div className="card-body">
               <h2 className="card-title">{coffee.name}</h2>
