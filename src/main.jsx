@@ -18,6 +18,7 @@ import {
 } from "@tanstack/react-query";
 import Users from "./Components/Users/Users.jsx";
 import Login from "./Components/Login/Login.jsx";
+import Users2 from "./Components/Users/Users2.jsx";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
         path: "/users",
         element: <Users></Users>,
         loader: () => fetch("http://localhost:5000/user"),
+      },
+      {
+        path: "/users2",
+        element: <Users2></Users2>,
       },
     ],
   },

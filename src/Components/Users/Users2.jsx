@@ -1,11 +1,31 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+// import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const Users = () => {
-  const loadedUser = useLoaderData();
-  const [users, setUsers] = useState(loadedUser);
+const Users2 = () => {
+  const {
+    isPending,
+    isError,
+    error,
+    data: users,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:5000/user");
+      return res.json();
+    },
+  });
+
+  //   const [users, setUsers] = useState([]);
+  //   useEffect(() => {
+  //     fetch("http://localhost:5000/user")
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setUsers(data);
+  //       });
+  //   }, []);
+
   const handleDelete = (id) => {
     console.log(id);
     Swal.fire({
@@ -26,13 +46,18 @@ const Users = () => {
           text: "User has been deleted.",
           icon: "success",
         });
-        const remaining = users.filter((user) => user._id !== id);
-        setUsers(remaining);
+        // const remaining = users.filter((user) => user._id !== id);
+        // setUsers(remaining);
       }
     });
   };
+  if (isPending) {
+    return <span className="loading loading-spinner loading-lg"></span>;
+  }
+  if (isError) {
+    return <p>{error.message}</p>;
+  }
 
-  console.log(loadedUser);
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -48,7 +73,7 @@ const Users = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          {users.map((user) => (
+          {users?.map((user) => (
             <tr className="space-y-4" key={user._id}>
               <th>name</th>
               <th>{user.email}</th>
@@ -69,4 +94,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Users2;

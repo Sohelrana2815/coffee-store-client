@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
+import axios from "axios";
 
 const Login = () => {
   const { signInUser } = useContext(AuthContext);
@@ -12,16 +13,23 @@ const Login = () => {
     const loginUser = { email, password };
     console.log(loginUser);
     signInUser(email, password)
-    .then((result) => {
-      if (result.user) {
-        alert("Login successfully!");
-        console.log(result.user);
-      }
-    })
-    .catch(error=>{
-        console.log(error);
-    })
+      .then((result) => {
+        if (result.user) {
+          const lastLogin = result.user?.metadata?.lastSignInTime;
 
+          const loginUser = { email, lastLogin: lastLogin };
+
+          axios.patch("http://localhost:5000/user", loginUser).then((data) => {
+            if (data.data) {
+              alert("Login successfully!");
+              console.log(result.user);
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
