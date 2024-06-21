@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
+import axios from "axios";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -14,6 +15,15 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         console.log(result.user);
+        const createdAt = result.user?.metadata?.creationTime;
+
+        const newUser = { email, createdAt: createdAt };
+        axios.post("http://localhost:5000/user", newUser).then((data) => {
+          if (data.data) {
+            alert("a new user added successfully!");
+          }
+          console.log(data.data);
+        });
       })
       .catch((error) => {
         console.log(error);
